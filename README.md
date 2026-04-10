@@ -7,18 +7,26 @@ Plataforma web educativa para gestión de estudiantes, cursos y evaluaciones, de
 
 ---
 
+#Link Video
+
+https://youtu.be/haaApzwNuRs
+
+#Link Repositorio
+
+https://github.com/Elationg/EntregaM6_TD
+
 ## Tecnologías utilizadas
 
-| Capa | Tecnología |
-|------|-----------|
-| Lenguaje | Java 17 |
-| Framework | Spring Boot 3.2.4 |
-| Web | Spring MVC + Thymeleaf |
-| Persistencia | Spring Data JPA + H2 |
-| Seguridad | Spring Security 6 |
-| REST | Spring Web (@RestController) |
-| Build | Maven |
-| UI | Bootstrap 5 + Bootstrap Icons |
+| Capa         | Tecnología                    |
+| ------------ | ----------------------------- |
+| Lenguaje     | Java 17                       |
+| Framework    | Spring Boot 3.2.4             |
+| Web          | Spring MVC + Thymeleaf        |
+| Persistencia | Spring Data JPA + H2          |
+| Seguridad    | Spring Security 6             |
+| REST         | Spring Web (@RestController)  |
+| Build        | Maven                         |
+| UI           | Bootstrap 5 + Bootstrap Icons |
 
 ---
 
@@ -101,6 +109,7 @@ mvn spring-boot:run
 ```
 
 Las dependencias están definidas en `pom.xml`:
+
 - `spring-boot-starter-web`
 - `spring-boot-starter-data-jpa`
 - `spring-boot-starter-security`
@@ -119,16 +128,16 @@ Implementación del patrón **Model-View-Controller**:
 
 Rutas web principales:
 
-| Método | URL | Descripción |
-|--------|-----|-------------|
-| GET | `/` | Dashboard |
-| GET | `/estudiantes` | Listar estudiantes |
-| GET | `/estudiantes/nuevo` | Formulario nuevo estudiante |
-| POST | `/estudiantes/guardar` | Guardar estudiante |
-| GET | `/cursos` | Listar cursos |
-| GET | `/cursos/nuevo` | Formulario nuevo curso |
-| POST | `/cursos/guardar` | Guardar curso |
-| GET | `/evaluaciones` | Listar evaluaciones |
+| Método | URL                    | Descripción                 |
+| ------ | ---------------------- | --------------------------- |
+| GET    | `/`                    | Dashboard                   |
+| GET    | `/estudiantes`         | Listar estudiantes          |
+| GET    | `/estudiantes/nuevo`   | Formulario nuevo estudiante |
+| POST   | `/estudiantes/guardar` | Guardar estudiante          |
+| GET    | `/cursos`              | Listar cursos               |
+| GET    | `/cursos/nuevo`        | Formulario nuevo curso      |
+| POST   | `/cursos/guardar`      | Guardar curso               |
+| GET    | `/evaluaciones`        | Listar evaluaciones         |
 
 ---
 
@@ -139,7 +148,7 @@ Rutas web principales:
 - **Servicios**: `@Service` con lógica de negocio e inyección de dependencias
 - **Consola H2**: disponible en `http://localhost:8080/h2-console`
   - JDBC URL: `jdbc:h2:mem:springedumanager`
-  - Usuario: `sa` | Contraseña: *(vacía)*
+  - Usuario: `sa` | Contraseña: _(vacía)_
 
 ---
 
@@ -147,13 +156,14 @@ Rutas web principales:
 
 Configuración en `SecurityConfig.java`:
 
-| Usuario | Contraseña | Rol |
-|---------|-----------|-----|
-| `admin` | `admin123` | ADMIN + USER |
-| `user` | `user123` | USER |
-| `estudiante` | `est123` | USER |
+| Usuario      | Contraseña | Rol          |
+| ------------ | ---------- | ------------ |
+| `admin`      | `admin123` | ADMIN + USER |
+| `user`       | `user123`  | USER         |
+| `estudiante` | `est123`   | USER         |
 
 **Reglas de acceso:**
+
 - `ADMIN`: puede crear, editar y eliminar cursos, estudiantes y evaluaciones
 - `USER`: puede ver todos los listados pero no modificar datos
 - Rutas públicas: `/login`, `/logout`
@@ -188,6 +198,7 @@ DELETE /api/cursos/{id}           → Elimina (ADMIN)
 ```
 
 **Ejemplo de body JSON para POST /api/cursos:**
+
 ```json
 {
   "nombre": "Microservicios con Spring Cloud",
@@ -199,6 +210,7 @@ DELETE /api/cursos/{id}           → Elimina (ADMIN)
 ```
 
 **Ejemplo de body JSON para POST /api/estudiantes:**
+
 ```json
 {
   "nombre": "Sofia",
@@ -213,6 +225,7 @@ DELETE /api/cursos/{id}           → Elimina (ADMIN)
 ## Cómo ejecutar
 
 ### Requisitos
+
 - Java 17+
 - Maven 3.6+
 
