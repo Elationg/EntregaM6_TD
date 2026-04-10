@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SpringEduManager - Cursos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}" th:with="currentPage='cursos'"></div>
+<div th:replace="~{fragments/navbar :: alertas}"></div>
+
+<div class="container py-4">
+
+    <!-- Cabecera -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">
+                <i class="bi bi-book-fill text-success me-2"></i>Cursos
+            </h2>
+            <small class="text-muted">Catalogo de cursos disponibles</small>
+        </div>
+        <!-- Solo ADMIN puede crear cursos - Leccion 4 -->
+        <a th:href="@{/cursos/nuevo}" class="btn btn-success"
+           sec:authorize="hasRole('ADMIN')">
+            <i class="bi bi-plus-circle me-1"></i>Nuevo Curso
+        </a>
+    </div>
+
+    <!-- Buscador -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <form th:action="@{/cursos}" method="get" class="row g-2">
+                <div class="col-md-10">
+                    <input type="text" name="buscar" class="form-control"
+                           placeholder="Buscar por nombre, docente o categoria..."
+                           th:value="${buscar}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-success w-100">
+                        <i class="bi bi-search me-1"></i>Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Grid de cursos (cards) -->
+    <div class="row g-4" th:unless="${#lists.isEmpty(cursos)}">
+        <div class="col-md-6 col-lg-4" th:each="curso : ${cursos}">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-success bg-opacity-10 border-0">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="badge bg-success" th:text="${curso.categoria}"></span>
+                        <small class="text-muted">
+                            <i class="bi bi-clock me-1"></i>
+                            <span th:text="${curso.duracionHoras} + 'h'"></span>
+                        </small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title fw-bold" th:text="${curso.nombre}"></h5>
+                    <p class="card-text text-muted small" th:text="${curso.descripcion}"></p>
+                    <div class="d-flex align-items-center gap-2 mt-auto">
+                        <i class="bi bi-person-video3 text-success"></i>
+                        <span class="small fw-semibold" th:text="${curso.docente}"></span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 d-flex gap-2"
+                     sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/cursos/editar/{id}(id=${curso.id})}"
+                       class="btn btn-sm btn-outline-warning flex-fill">
+                        <i class="bi bi-pencil me-1"></i>Editar
+                    </a>
+                    <a th:href="@{/cursos/eliminar/{id}(id=${curso.id})}"
+                       class="btn btn-sm btn-outline-danger flex-fill"
+                       onclick="return confirm('¿Confirma eliminar este curso?')">
+                        <i class="bi bi-trash me-1"></i>Eliminar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sin resultados -->
+    <div th:if="${#lists.isEmpty(cursos)}" class="text-center py-5">
+        <i class="bi bi-book display-4 text-muted d-block mb-3"></i>
+        <p class="text-muted">No se encontraron cursos
+            <span th:if="${buscar != null}"> para "<strong th:text="${buscar}"></strong>"</span>
+        </p>
+        <a th:href="@{/cursos}" class="btn btn-outline-success" th:if="${buscar != null}">
+            Ver todos los cursos
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
